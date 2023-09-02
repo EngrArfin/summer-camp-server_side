@@ -57,6 +57,17 @@ async function run() {
     const courseCollection = client.db('CourseLBD').collection('courses');
     const teachersCollection = client.db('CourseLBD').collection('teachers');
     const categoriesCollection = client.db('CourseLBD').collection('categories');
+    const cartCollection = client.db('CourseLBD').collection('carts');
+
+    //carts collection 
+    app.post('/carts', async(req, res) =>{
+      const item = req.body;
+      console.log(item);
+      const result = await cartCollection.insertOne(item);
+      res.send(result);
+
+    })
+    
     //courses
     app.get('/courses', async(req, res) =>{
       const result = await courseCollection.find().toArray();
@@ -92,11 +103,9 @@ async function run() {
       const categories = req.body;
       console.log(categories);
       const result = await categoriesCollection.insertOne(categories);
-      res.send(result)
+      res.send(result);
 
     })
-
-   
 
 
     await client.db("admin").command({ ping: 1 });
@@ -117,3 +126,16 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+/* 
+-----------------------
+     NAMING CONVENTION
+------------------------
+* users : userCollection
+* app.get('/users')
+* app.get('/users/:id')
+* app.post('/users')
+* app.patch('/users/:id')
+* app.put('/users/:id')
+* app.delete('/users/:id')
+*/
