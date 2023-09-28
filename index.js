@@ -14,7 +14,8 @@ console.log(process.env.USER_PASS);
 
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@cluster0.xu7sm0d.mongodb.net/?retryWrites=true&w=majority`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// Create a MongoClient  MongoClientOptions object to set the Stable API version
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -29,44 +30,10 @@ async function run() {
     await client.connect();
     // Send a ping to confirm a successful connection
   
-/*     const serviceCollection = client.db('toyMarket').collection('services');
-    const bookingCollection = client.db('toyMarket').collection('toying');
-    const categoriesCollection = client.db('CourseLBD').collection('categories'); */
-
-
-    /*  app.get('/services', async(req, res) =>{
-      const cursor = serviceCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    })
-    
-    app.get('/services/:id', async(req, res) =>{
-      const id = req.params.id;
-      const query = {_id: new Object(id)}
-
-      const options = {
-        projection: { title: 1, price: 1, service_id: 1, img: 1},
-      }; 
-
-      const result = await serviceCollection.findOne(query, options);
-      res.send(result);
-
-    })
- */
-
     const courseCollection = client.db('CourseLBD').collection('courses');
     const teachersCollection = client.db('CourseLBD').collection('teachers');
     const categoriesCollection = client.db('CourseLBD').collection('categories');
     const cartCollection = client.db('CourseLBD').collection('carts');
-
-    //carts collection 
-    app.post('/carts', async(req, res) =>{
-      const item = req.body;
-      console.log(item);
-      const result = await cartCollection.insertOne(item);
-      res.send(result);
-
-    })
     
     //courses
     app.get('/courses', async(req, res) =>{
@@ -86,6 +53,7 @@ async function run() {
       const result = await teachersCollection.find().toArray();
       res.send(result);
     })
+
     app.post('/teachers', async(req, res) =>{
       const teachers = req.body;
       console.log(teachers);
@@ -107,6 +75,35 @@ async function run() {
 
     })
 
+    //carts collection 
+    app.post('/carts', async(req, res) =>{
+      const item = req.body;
+      console.log(item);
+      const result = await cartCollection.insertOne(item);
+      res.send(result);
+    })
+
+     /* New Item write */
+    //cart collection api
+    /* app.get('/carts', async(req, res) =>{
+      const email = req.query.email;
+      if(!email){
+        res.send([]);
+      }
+      const query = { email: email};
+      const  result = await cartCollection.find(query).toArray();
+      res.send(result);
+    }) */
+
+    /* Delete Item */
+
+   /*  app.delete('/carts/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query ={_id: new ObjectId(id)};
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);   
+    })
+ */
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -128,7 +125,7 @@ app.listen(port, () => {
 })
 
 /* 
------------------------
+------------------------
      NAMING CONVENTION
 ------------------------
 * users : userCollection
@@ -137,5 +134,5 @@ app.listen(port, () => {
 * app.post('/users')
 * app.patch('/users/:id')
 * app.put('/users/:id')
-* app.delete('/users/:id')
+* app.  ('/users/:id')
 */
