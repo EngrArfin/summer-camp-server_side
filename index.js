@@ -11,7 +11,6 @@ app.use(express.json());
 
 console.log(process.env.USER_PASS);
 
-
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@cluster0.xu7sm0d.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient  MongoClientOptions object to set the Stable API version
@@ -59,7 +58,6 @@ async function run() {
       console.log(teachers);
       const result = await teachersCollection.insertOne(teachers);
       res.send(result)
-
     })
 
     /* categories */
@@ -75,17 +73,22 @@ async function run() {
 
     })
 
+
+
+    /* /carts  */
     //carts collection 
-    app.post('/carts', async(req, res) =>{
+     app.post('/carts', async(req, res) =>{
       const item = req.body;
       console.log(item);
       const result = await cartCollection.insertOne(item);
       res.send(result);
-    })
-
+    }) 
+ 
      /* New Item write */
+
     //cart collection api
-    /* app.get('/carts', async(req, res) =>{
+
+   app.get('/carts', async(req, res) =>{
       const email = req.query.email;
       if(!email){
         res.send([]);
@@ -93,17 +96,17 @@ async function run() {
       const query = { email: email};
       const  result = await cartCollection.find(query).toArray();
       res.send(result);
-    }) */
+    })   
 
     /* Delete Item */
 
-   /*  app.delete('/carts/:id', async(req, res)=>{
+   app.delete('/carts/:id', async(req, res)=>{
       const id = req.params.id;
       const query ={_id: new ObjectId(id)};
       const result = await cartCollection.deleteOne(query);
       res.send(result);   
-    })
- */
+    })  
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
